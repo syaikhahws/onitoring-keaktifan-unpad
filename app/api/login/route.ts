@@ -1,5 +1,15 @@
 import { NextResponse } from 'next/server';
+import type { RowDataPacket } from 'mysql2';
 import { db } from '@/lib/db';
+
+interface UserRow extends RowDataPacket {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  role: 'Dosen Pengampu' | 'Mahasiswa' | 'Admin Pusat';
+  fakultas: string;
+}
 
 export async function POST(request: Request) {
   try {
@@ -14,7 +24,7 @@ export async function POST(request: Request) {
     }
 
     // Query ke database MySQL AMPPS
-    const [rows]: any = await db.execute(
+    const [rows] = await db.execute<UserRow[]>(
       'SELECT * FROM users WHERE email = ?',
       [email]
     );
@@ -40,6 +50,7 @@ export async function POST(request: Request) {
       success: true,
       message: "Login berhasil!",
       user: {
+        id: user.id,
         name: user.name,
         email: user.email,
         role: user.role,

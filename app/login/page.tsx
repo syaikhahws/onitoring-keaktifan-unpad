@@ -29,8 +29,20 @@ export default function LoginPage() {
         return;
       }
 
-      // Jika sukses, arahkan ke dashboard dosen dengan membawa nama & NIP/ID dari database
-      router.push(`/dashboard/dosen?nama=${encodeURIComponent(data.user.name)}&nip=197805122005011002`);
+      const dashboardByRole: Record<string, string> = {
+        'Dosen Pengampu': '/dashboard/dosen',
+        Mahasiswa: '/dashboard/mahasiswa',
+        'Admin Pusat': '/dashboard/admin',
+      };
+      const dashboard = dashboardByRole[data.user.role];
+
+      if (!dashboard) {
+        setError('Peran akun tidak dikenali. Hubungi administrator.');
+        setLoading(false);
+        return;
+      }
+
+      router.push(`${dashboard}?nama=${encodeURIComponent(data.user.name)}&id=${encodeURIComponent(data.user.id)}`);
     } catch (err) {
       setError("Terjadi kesalahan koneksi ke server.");
       setLoading(false);

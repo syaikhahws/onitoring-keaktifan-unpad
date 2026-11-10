@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import type { RowDataPacket } from 'mysql2';
 import { db } from '@/lib/db';
 
 export async function GET(request: Request) {
@@ -7,7 +8,7 @@ export async function GET(request: Request) {
     const dosenId = searchParams.get('dosen_id') || 'DOSEN-02';
 
     // Ambil data mahasiswa dan tentukan status risikonya berdasarkan nama karakter
-    const [rows]: any = await db.execute(
+    const [rows] = await db.execute<RowDataPacket[]>(
       `SELECT 
         id as nim, 
         name as nama_mhs, 

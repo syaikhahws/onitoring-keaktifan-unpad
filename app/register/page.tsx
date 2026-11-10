@@ -87,7 +87,7 @@ export default function RegisterPage() {
             >
               <option value="Dosen Pengampu">Dosen Pengampu / Wali</option>
               <option value="Mahasiswa">Mahasiswa</option>
-              <option value="Administrator">Administrator</option>
+              <option value="Admin Pusat">Admin Pusat</option>
             </select>
           </div>
 
